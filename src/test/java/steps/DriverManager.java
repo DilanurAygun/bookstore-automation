@@ -14,6 +14,16 @@ public class DriverManager {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
+
+            // CI ortamında headless çalıştır
+            String headless = System.getProperty("headless", "false");
+            if (headless.equals("true")) {
+                options.addArguments("--headless");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--window-size=1920,1080");
+            }
+
             driver = new ChromeDriver(options);
         }
         return driver;
